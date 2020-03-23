@@ -49,14 +49,18 @@ function displayLineChart(chartData){
    Highcharts.chart('linechart', {
     chart: {
         type: 'line',
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        scrollablePlotArea: {
+            minWidth: 600,
+            scrollPositionX: 0
+        }
     },
     title: {
         text: 'Cases Since 11th March 2020',
         style
     },
     subtitle: {
-        text: 'Source: MoH Facbook Page',
+        text: 'Source: MoH Facebook Page',
         style
     },
     xAxis: {
@@ -67,11 +71,14 @@ function displayLineChart(chartData){
     },
     yAxis: {
         title: {
-            text: 'Total Number of Cases',
-            style,
+            text: 'Total Cases',
+            style:{
+                color: 'white',
+                fontSize :'10px'
+            },
         },
         labels: {
-            style
+            enabled: false
         }
     },
     plotOptions: {
@@ -82,8 +89,9 @@ function displayLineChart(chartData){
                 fontFamily: 'monospace',
                 color: "white"
             }
-            },
-            enableMouseTracking: false
+        },
+        enableMouseTracking: true,
+
         }
     },
     legend : {
@@ -96,33 +104,38 @@ function displayLineChart(chartData){
           name: 'Confirmed Imported',
           data: imported,
           label:{
-             style: {
-                  fontFamily: 'monospace',
-                  color: "white"
-              }
+             enabled: false,
           }
       },
       {
           name: 'Teststed',
           data: tested,
           label:{
-             style: {
-                  fontFamily: 'monospace',
-                  color: "white"
-              }
+             enabled: false,
           }
       },
        {
           name: 'Community',
           data: community,
           label:{
-             style: {
-                  fontFamily: 'monospace',
-                  color: "white"
-              }
+             enabled: false,
           }
       }
-    ]
+    ],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: '800px'
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
 });
 
 }
@@ -151,7 +164,8 @@ function displayPieChart({cases}){
         backgroundColor:'transparent',
         plotBorderWidth: null,
         plotShadow: false,
-        type: 'pie'
+        type: 'pie',
+        zoomType:'xy'
     },
     title: {
         text: 'Imported Vs Community Cases',

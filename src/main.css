@@ -6,14 +6,14 @@ html{
     height: 100%;
 }
 
-#status, #videos, #people, #media{
-    margin-top: 50px;
-    padding: 10px;
+.title{
+    font-size: 20px;
 }
 
-#pichart, #linechart{
-    overflow-x: scroll;
+#status, #videos, #people, #media{
+    margin-top: 70px;
 }
+
 
 h1{
     font-size: 30px;
@@ -37,10 +37,14 @@ thead>tr{
     border-bottom: 1px solid white;
 }
 
-highcharts-figure, .highcharts-data-table table {
+
+.highcharts-figure, .highcharts-data-table table {
     min-width: 360px; 
     max-width: 800px;
-    margin: 1em auto;
+    overflow-x: show;
+    margin: 1px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .highcharts-data-table table {
@@ -52,6 +56,7 @@ highcharts-figure, .highcharts-data-table table {
 	width: 100%;
 	max-width: 500px;
 }
+
 .highcharts-data-table caption {
     padding: 1em 0;
     font-size: 1.2em;

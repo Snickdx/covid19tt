@@ -27,7 +27,9 @@ gulp.task('scripts', function() {
   gulp.src(['./src/*.js'])
     .pipe(minify({
         noSource:true,
-        min:'',
+         ext:{
+            min:'.js'
+        },
     }))
     .pipe(gulp.dest(dist))
 });
@@ -46,6 +48,11 @@ gulp.task('pages', function() {
 gulp.task('assets', function(){
     return gulp.src(['src/assets/**/*'])
         .pipe(gulp.dest('public/assets'));
+});
+
+gulp.task('manifest', function(){
+    return gulp.src(['src/manifest.json'])
+        .pipe(gulp.dest('public/'));
 });
 
 gulp.task('generate-service-worker', () => {
@@ -79,6 +86,7 @@ gulp.task('default', ['clean'], function () {
     'scripts',
     'pages',
     'assets',
+    'manifest',
     'generate-service-worker'
   );
 });

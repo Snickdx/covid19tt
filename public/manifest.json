@@ -4,23 +4,23 @@
     "start_url" : "index.html",
 	"scope" : ".",
 	"display" : "fullscreen",
-	"background_color" : "#212121",
-	"theme_color" : "#E53935",
+	"background_color" : "#e53935",
+	"theme_color" : "#e53935",
 	"url" : "https://covid19tt.web.app",
 	"orientation" : "portrait",
 	"icons" : [
         {
-            "src": "./img/512.png",
+            "src": "./assets/img/512.png",
             "sizes": "512x512",
             "type": "image/png"
         },
         {
-            "src": "./img/150.png",
+            "src": "./assets/img/150.png",
             "sizes": "150x150",
             "type": "image/png"
         },
         {
-            "src": "./img/152.png",
+            "src": "./assets/img/152.png",
             "sizes": "152x152",
             "type": "image/png"
         }
