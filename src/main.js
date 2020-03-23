@@ -108,7 +108,7 @@ function displayLineChart(chartData){
           }
       },
       {
-          name: 'Teststed',
+          name: 'Tested',
           data: tested,
           label:{
              enabled: false,
