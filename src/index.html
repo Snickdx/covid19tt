@@ -32,13 +32,13 @@
 <body>
     <div class="navbar-fixed">
         <nav class="nav-extended">
-            <div class="nav-wrapper red darken-1">
+            <div class="nav-wrapper red darken-2">
                 <span class="title">Covid 19 In T&T</span>
             </div>
-            <div class="nav-content red darken-1">
+            <div class="nav-content red darken-2">
                 <ul class="tabs tabs-transparent">
-                    <li class="tab"><a class="active" href="#status">Status</a></li>
-                    <li class="tab"><a  href="#media">Media Releases</a></li>
+                    <li class="tab"><a class="active" aria-role="button" href="#status">Status</a></li>
+                    <li class="tab"><a href="#media" aria-rols="button" >Media Releases</a></li>
                     <!-- <li class="tab"><a href="#videos">Press Videos</a></li>
                     <li class="tab"><a href="#people">People's Voice</a></li> -->
                 </ul>
@@ -46,40 +46,42 @@
         </nav>    
     </div>
 
+    <main id="status" class="col s12 grey darken-4 white-text" style="text-align: center;">
+  
+        <section>
+            <h1>Detected Cases: <span id="cases"></span></h1>
 
-    <div id="status" class="col s12 grey darken-4 white-text" style="text-align: center;">
-        <h1>Detected Cases:</h1>
+            <p>Last Updated: <span id="date"></span></p>
 
-        <h1><span id="cases"></h1>
+            <p>Lastest Update #: <span id="update-num"></span></p>
+        </section>
 
-        <p>Last Updated: <span id="date"></span></p>
+        <section>
+            <figure class="highcharts-figure">
+                <h1>Detected Imported Cases vs Detetcted Community Cases</h1>
+                <div id="piechart"></div>
+            </figure>
 
-        <p>Lastest Update #: <span id="update-num"></span></p>
-       
-        <figure class="highcharts-figure">
-            <div id="piechart"></div>
-        </figure>
+            <figure class="highcharts-figure">
+                <h1> Growth of Cases since March 11 2020</h1>
+                <h2> Source: MoH Facebook Page</h2>
+                <div id="linechart"></div>
+            </figure>
+        </section>
 
-        <h1>Report History</h1>
+    </main>
 
-        <figure class="highcharts-figure">
-            <div id="linechart"></div>
-        </figure>
-
-
-    </div>
-
-    <div id="media" class="col s12 darken-4 white-text">
+    <main id="media" class="col s12 darken-4 white-text">
          
-    </div>
+    </main>
 
-    <div id="videos" class="col s12">
+    <!--  <main id="videos" class="col s12">
 
-    </div>
+    </main>
 
-    <div id="people" class="col s12">
+    <main id="people" class="col s12">
     
-    </div>
+    </main> -->
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>

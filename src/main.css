@@ -16,7 +16,19 @@ html{
 
 
 h1{
-    font-size: 30px;
+    font-size: 25px;
+}
+
+h2{
+    font-size: 20px;
+}
+
+.white-text{
+    color: white;
+}
+
+.card{
+    margin: 5px;
 }
 
 body {
@@ -60,8 +72,8 @@ thead>tr{
 .highcharts-data-table caption {
     padding: 1em 0;
     font-size: 1.2em;
-    color: #555;
 }
+
 .highcharts-data-table th {
 	font-weight: 600;
     padding: 0.5em;
@@ -69,9 +81,7 @@ thead>tr{
 .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
     padding: 0.5em;
 }
-.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
-    background: #f8f8f8;
-}
+
 .highcharts-data-table tr:hover {
-    background: #f1f7ff;
+    background: grey;
 }

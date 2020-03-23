@@ -6,7 +6,7 @@
   "scripts": {
     "build": "gulp",
     "deploy": "firebase deploy --only hosting --token 1//06jvRCMCT9IFACgYIARAAGAYSNwF-L9Irxrrm2E3U-y_bzfb2jjMiw684iWazZO9LU0_heRqxOkZxADoU-MyI4lpvxDAIQxTtVIE",
-    "serve" :"firebase serve --token 1//06jvRCMCT9IFACgYIARAAGAYSNwF-L9Irxrrm2E3U-y_bzfb2jjMiw684iWazZO9LU0_heRqxOkZxADoU-MyI4lpvxDAIQxTtVIE"
+    "serve": "firebase serve --token 1//06jvRCMCT9IFACgYIARAAGAYSNwF-L9Irxrrm2E3U-y_bzfb2jjMiw684iWazZO9LU0_heRqxOkZxADoU-MyI4lpvxDAIQxTtVIE"
   },
   "repository": {
     "type": "git",

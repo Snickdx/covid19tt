@@ -45,23 +45,30 @@ function displayLineChart(chartData){
         color: "white",
         fontSize: "15px"
     };
+
+    let dataLabels = {
+        style:{
+            fontSize: "15px"
+        }
+    }
     
    Highcharts.chart('linechart', {
     chart: {
         type: 'line',
         backgroundColor:'transparent',
+        height: '500px',
         scrollablePlotArea: {
             minWidth: 600,
             scrollPositionX: 0
         }
     },
     title: {
-        text: 'Cases Since 11th March 2020',
-        style
+        text: undefined,
+        style,
+        useHtml: true,
     },
-    subtitle: {
-        text: 'Source: MoH Facebook Page',
-        style
+    tooltip: {
+        pointFormat: '<b>{point.y} cases were {point.series.name}</b>'
     },
     xAxis: {
         categories,
@@ -71,10 +78,11 @@ function displayLineChart(chartData){
     },
     yAxis: {
         title: {
-            text: 'Total Cases',
+            text: undefined,
+            useHtml: true,
             style:{
                 color: 'white',
-                fontSize :'10px'
+                fontSize :'12px'
             },
         },
         labels: {
@@ -101,8 +109,9 @@ function displayLineChart(chartData){
     },
     series: [
       {
-          name: 'Confirmed Imported',
+          name: 'Imported',
           data: imported,
+          dataLabels,
           label:{
              enabled: false,
           }
@@ -110,6 +119,7 @@ function displayLineChart(chartData){
       {
           name: 'Tested',
           data: tested,
+          dataLabels,
           label:{
              enabled: false,
           }
@@ -117,6 +127,7 @@ function displayLineChart(chartData){
        {
           name: 'Community',
           data: community,
+          dataLabels,
           label:{
              enabled: false,
           }
@@ -168,8 +179,9 @@ function displayPieChart({cases}){
         zoomType:'xy'
     },
     title: {
-        text: 'Imported Vs Community Cases',
-        style
+        text: undefined,
+        style,
+        useHtml: true,
     },
     tooltip: {
         pointFormat: '<b>{point.y} persons tested positive are {point.name}</b>'
@@ -203,7 +215,6 @@ function displayPieChart({cases}){
 }
 
 function getReportHistory(){
-
     return data = [
         {
             "date":1583884800,
@@ -424,6 +435,28 @@ function getReportHistory(){
                 "community":0
             },
             "tested": 298
+        },
+        {
+            "date": 1584835200,
+            "update-num": 42,
+            "url":"https://www.facebook.com/MinistryofHealthTT/photos/a.2717096131653511/3221450544551398/?type=3&theater",
+            "cases":{
+                "deaths": 0,
+                "imported": 50,
+                "community":0
+            },
+            "tested": 306
+        },
+        {
+            "date": 1584921600,
+            "update-num": 43,
+            "url":"https://www.facebook.com/MinistryofHealthTT/photos/pcb.3223287184367734/3223287027701083/?type=3&theater",
+            "cases":{
+                "deaths": 0,
+                "imported": 51,
+                "community":0
+            },
+            "tested": 311
         }
     ];
 }
@@ -459,13 +492,19 @@ function displayMedia(data){
                 <p>Community Cases: ${ele.cases.community}</p>
             </div>
             <div class="card-action">
-            <a href="${ele.url}" rel="noopener" target="_blank" class="red-text">View on Facebook</a>
+            <a href="${ele.url}" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
             </div>
         </div>
         `;
     }
 
     document.querySelector('#media').innerHTML = str;
+}
+
+function fixAccessbility(){
+    let img = document.querySelector('.highslide-container>img');
+    img.setAttribute('alt', 'highslide container image');
+    img.setAttribute('aria-hidden', true);
 }
 
 function main(){
@@ -478,6 +517,7 @@ function main(){
     displayPieChart(lastRec);
     displayLastRecord(lastRec);
     displayMedia(reports);
+    fixAccessbility();
     registerSW();
 }
 
