@@ -464,6 +464,7 @@ function main(){
     displayPieChart(lastRec);
     displayLastRecord(lastRec);
     displayMedia(reports);
+    registerSW();
 }
 
 

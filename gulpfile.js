@@ -7,29 +7,15 @@ var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
+const minify = require('gulp-minify');
 const workbox = require('workbox-build');
 
-// Set the browser that you want to support
-const AUTOPREFIXER_BROWSERS = [
-  'ie >= 10',
-  'ie_mob >= 10',
-  'ff >= 30',
-  'chrome >= 34',
-  'safari >= 7',
-  'opera >= 23',
-  'ios >= 7',
-  'android >= 4.4',
-  'bb >= 10'
-];
 
 const dist = './public/';
 
 // Gulp task to minify CSS files
 gulp.task('styles', function () {
   return gulp.src('./src/main.css')
-    // Auto-prefix css styles for cross browser compatibility
-    .pipe(autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
     // Minify the file
     .pipe(csso())
     // Output
@@ -38,12 +24,14 @@ gulp.task('styles', function () {
 
 // Gulp task to minify JavaScript files
 gulp.task('scripts', function() {
-  return gulp.src('./src/**/*.js')
-    // Minify the file
-    .pipe(uglify())
-    // Output
+  gulp.src(['./src/*.js'])
+    .pipe(minify({
+        noSource:true,
+        min:'',
+    }))
     .pipe(gulp.dest(dist))
 });
+
 
 // Gulp task to minify HTML files
 gulp.task('pages', function() {
@@ -53,6 +41,11 @@ gulp.task('pages', function() {
       removeComments: true
     }))
     .pipe(gulp.dest(dist));
+});
+
+gulp.task('assets', function(){
+    return gulp.src(['src/assets/**/*'])
+        .pipe(gulp.dest('public/assets'));
 });
 
 gulp.task('generate-service-worker', () => {
@@ -85,5 +78,7 @@ gulp.task('default', ['clean'], function () {
     'styles',
     'scripts',
     'pages',
+    'assets',
+    'generate-service-worker'
   );
 });
