@@ -6,10 +6,11 @@ tasks:
     command: npm install
     command: gulp
     command: firebase serve
+    name: server
 
 ports:
   - port: 5000
-    onOpen: open-preview
+    onOpen: open-browser
 
 github:
   prebuilds:
