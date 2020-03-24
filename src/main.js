@@ -457,6 +457,28 @@ function getReportHistory(){
                 "community":0
             },
             "tested": 311
+        },
+         {
+            "date": 1584921600,
+            "update-num": 44,
+            "url":"https://www.facebook.com/MinistryofHealthTT/photos/pcb.3223918980971221/3223918427637943/?type=3&theater",
+            "cases":{
+                "deaths": 0,
+                "imported": 51,
+                "community":0
+            },
+            "tested": 317
+        },
+        {
+            "date": 1585008000,
+            "update-num": 45,
+            "url":"https://www.facebook.com/MinistryofHealthTT/photos/a.727164953979982/3225626787467107/?type=3&theater",
+            "cases":{
+                "deaths": 0,
+                "imported": 52,
+                "community":1
+            },
+            "tested": 332
         }
     ];
 }
