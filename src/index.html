@@ -58,7 +58,7 @@
 
         <section>
             <figure class="highcharts-figure">
-                <h1>Detected Imported Cases vs Detetcted Community Cases</h1>
+                <h1>Detected Cases</h1>
                 <div id="piechart"></div>
             </figure>
 
@@ -72,7 +72,10 @@
     </main>
 
     <main id="media" class="col s12 darken-4 white-text">
-         
+        <section id="media-list">
+        
+        </section>
+        <a class="btn-floating btn-large waves-effect waves-light red modal-trigger" id="addFab" href="#addModal"><i class="material-icons">add</i></a>
     </main>
 
     <!--  <main id="videos" class="col s12">
@@ -82,6 +85,79 @@
     <main id="people" class="col s12">
     
     </main> -->
+
+      <!-- Modal Structure -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h4>Add Update</h4>
+            <form class="col s12" name="addForm">
+                <div class="row">
+                    <div class="input-field col s8">
+                        <input placeholder="Enter admin password" name="password" type="password">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input placeholder="Update #" name="update-num" type="number">
+                        <label for="update-num">Update #</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s7">
+                         <input type="text" placeholder="url" name="url">
+                        <label for="url">MOH Post url</label>
+                    </div>
+                    <div class="input-field col s5">
+                         <input type="date" name="date">
+                        <label for="date">Date</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input placeholder="Placeholder" name="tested" type="number">
+                        <label for="update-num">Tested</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Placeholder" name="imported" type="number">
+                        <label for="update-num">Imported</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input placeholder="Placeholder" name="contact" type="number">
+                        <label for="update-num">Contact</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Placeholder" name="community" type="number">
+                        <label for="update-num">Community</label>
+                    </div>
+                </div>
+                <div class="row">     
+                    <button class="btn waves-effect waves-light modal-close right red" type="submit" name="action">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h4>Delete Update</h4>
+            <form class="col s12" name="deleteForm">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input placeholder="Enter Admin Password" name="password" type="password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="row">     
+                    <button class="btn waves-effect waves-light modal-close right red" type="submit" name="action">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -97,6 +173,9 @@
         
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script src="data.js"></script>
+    <script src="charts.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ FROM gitpod/workspace-full
                     
 USER gitpod
 
-RUN npm i -g firebase-tools && npm install -g gulp
+RUN npm i -g firebase-tools gulp
 # Install custom tools, runtime, etc. using apt-get
 # For example, the command below would install "bastet" - a command line tetris clone:
 #
