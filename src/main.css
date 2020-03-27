@@ -19,10 +19,7 @@ html{
     bottom: 50px;
     right: 25px;
 }
-
-@media only screen and (max-width: 992px) .modal {
-    width: 100%;
-}
+ 
 
 h1{
     font-size: 25px;
@@ -93,4 +90,70 @@ thead>tr{
 
 .highcharts-data-table tr:hover {
     background: grey;
+}
+
+
+main{
+    display: flex;
+    flex-direction: column
+}
+
+section{
+    display:flex;
+}
+
+figure{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section:nth-child(1){
+    flex-direction: column;
+    flex-grow: 3;
+    justify-content: center;
+}
+
+section:nth-child(2){
+    display:flex;
+    flex-direction: row;
+    flex-grow: 8;
+}
+
+section>figure:nth-child(1){
+    flex-grow: 3;
+}
+
+section>figure:nth-child(2){
+    flex-grow: 9;
+}
+
+#media-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card{
+    width: 400px;
+}
+
+@media screen and (max-width: 700px) {
+    #media-list{
+        flex-direction: column;
+    }
+
+    .card{
+        width: 100%;
+    }
+
+    section:nth-child(2){
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 701px) {
+    .card{
+        width: 300px;
+    }
 }

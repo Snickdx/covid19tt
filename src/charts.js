@@ -4,6 +4,7 @@ function convertToLineData(data){
     let imported = [];
     let deaths = [];
     let community = [];
+    let contact = [];
 
     let uniqeDates = {};
 
@@ -15,12 +16,14 @@ function convertToLineData(data){
             imported[i -1] = ele.cases.imported;
             deaths[i - 1] = ele.cases.deaths;
             community[i - 1] = ele.cases.community;
+            contact[i - 1] = ele.cases.contact;
         }else{
             categories.push(`Day ${i}`);
             tested.push(ele.tested);
             imported.push(ele.cases.imported);
             deaths.push(ele.cases.deaths);
             community.push(ele.cases.community);
+            contact.push(ele.cases.contact);
             uniqeDates[ele.date] = true;
             i++;
         }
@@ -33,12 +36,13 @@ function convertToLineData(data){
         deaths,
         tested,
         community,
+        contact,
     };
 }
 
 function displayLineChart(chartData){
 
-   let {categories, tested, imported, community} = convertToLineData(chartData);
+   let {categories, tested, imported, community, contact} = convertToLineData(chartData);
 
    let style = {
         fontFamily: 'monospace',
@@ -131,6 +135,14 @@ function displayLineChart(chartData){
           label:{
              enabled: false,
           }
+      },
+      {
+          name: 'Contact',
+          data: contact,
+          dataLabels,
+          label:{
+             enabled: false,
+          }
       }
     ],
     responsive: {
@@ -160,7 +172,11 @@ function displayPieChart({cases}){
         {
             name: "Community",
             y: cases.community,
-        }
+        },
+        {
+            name: "Contact",
+            y: cases.contact,
+        },
     ]
 
     let style = {

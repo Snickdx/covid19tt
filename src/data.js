@@ -7,7 +7,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":0,
-                "community":0
+                "community":0, "contact":0
             },
             "tested":40
         },
@@ -18,7 +18,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":1,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 52
         },
@@ -29,7 +29,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":1,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 63
         },
@@ -40,7 +40,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":2,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 63
         },
@@ -51,7 +51,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":2,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 77
         },
@@ -62,7 +62,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":2,
-                "community":0
+                "community":0, "contact":0
             },
             "tested":81
         },
@@ -73,7 +73,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":4,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 81
         },
@@ -84,7 +84,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 4,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 84
         },
@@ -95,7 +95,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":5,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 84
         },
@@ -106,7 +106,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 5,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 96
         },
@@ -117,7 +117,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 5,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 110
         },
@@ -128,7 +128,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 7,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 110
         },
@@ -139,7 +139,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 7,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 131
         },
@@ -150,7 +150,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":9,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 131
         },
@@ -161,7 +161,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 9,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 150
         },
@@ -172,7 +172,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":9,
-                "community":0
+                "community":0, "contact":0
             },
             "tested":155
         },
@@ -183,7 +183,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":9,
-                "community":0
+                "community":0, "contact":0
             },
             "tested":250
         },
@@ -194,7 +194,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported":9,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 258
         },
@@ -205,7 +205,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 49,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 284
         },
@@ -216,7 +216,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 50,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 298
         },
@@ -227,7 +227,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 50,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 306
         },
@@ -238,7 +238,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 51,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 311
         },
@@ -249,7 +249,7 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 51,
-                "community":0
+                "community":0, "contact":0
             },
             "tested": 317
         },
@@ -260,7 +260,8 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 52,
-                "community":1
+                "community":0,
+                "contact":0
             },
             "tested": 332
         },
@@ -271,7 +272,8 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 56,
-                "community": 1
+                "community": 0,
+                "contact":1
             },
             "tested": 353
         },
@@ -282,9 +284,34 @@ function getReportHistory(){
             "cases":{
                 "deaths": 0,
                 "imported": 59,
-                "community":1
+                "community": 0,
+                "contact": 1
             },
             "tested": 370
+        },
+        {
+            "date": 1585267200,
+            "update-num": 49,
+            "url":"https://www.facebook.com/MinistryofHealthTT/photos/pcb.3230515336978252/3230510760312043/?type=3&theater",
+            "cases":{
+                "deaths": 1,
+                "imported": 60,
+                "community": 0,
+                "contact": 1
+            },
+            "tested": 407
+        },
+        {
+            "date": 1585267200,
+            "update-num": 50,
+            "url":"",
+            "cases":{
+                "deaths": 1,
+                "imported": 65,
+                "community": 0,
+                "contact": 1
+            },
+            "tested": 415 
         }
     ];
 }
@@ -297,7 +324,8 @@ function getReportHistory(){
 //     "cases":{
 //         "deaths": 0,
 //         "imported": ,
-//         "community":
+//         "community": ,
+//         "contact":
 //     },
 //     "tested": 
 // }

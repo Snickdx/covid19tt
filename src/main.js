@@ -25,6 +25,7 @@ function displayMedia(data){
                 <span class="card-title">Update #: ${ele['update-num']}</span>
                 <p>Date: ${(new Date(ele.date*1000)).toLocaleDateString('en-US')}</p>
                 <p>Tested: ${ele.tested}</p>
+                <p>Contact: ${ele.contact}</p>
                 <p>Imported Cases: ${ele.cases.imported}</p>
                 <p>Community Cases: ${ele.cases.community}</p>
             </div>
@@ -45,14 +46,10 @@ function fixAccessbility(){
     img.setAttribute('aria-hidden', true);
 }
 
-//execute whenever a modal closes
-function onCloseEnd(event){
-    console.log(event);
-}
 
 function main(){
     M.Tabs.init(document.querySelector(".tabs"));
-    M.Modal.init(document.querySelectorAll('.modal'), {onCloseEnd});
+    M.Modal.init(document.querySelectorAll('.modal'));
 
     let reports = getReportHistory();
 
@@ -63,7 +60,7 @@ function main(){
     displayLastRecord(lastRec);
     displayMedia(reports);
     fixAccessbility();
-    // registerSW();
+    registerSW();
 }
 
 

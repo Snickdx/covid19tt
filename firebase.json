@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "src",
+    "public": "public",
     "site": "covid19tt",
     "ignore": [
       "firebase.json",
