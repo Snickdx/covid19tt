@@ -5,7 +5,5 @@ ports:
     onOpen: open-browser
 tasks: 
   - init: npm install
-    command: python3 main.py
-  - command: npm install
-    command: npm run build
+  - command: npm run build
     command: npm run serve
