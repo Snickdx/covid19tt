@@ -91,7 +91,7 @@ function deleteReport(event){
 
 function getData(){
     //make get request for data
-    let reports = getReports();
+    let records = getReports();
 
     //pass the records to this function
     displayLineChart(records);
