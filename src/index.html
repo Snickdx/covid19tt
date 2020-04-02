@@ -53,7 +53,7 @@
 
             <p>Last Updated: <span id="date"></span></p>
 
-            <p>Lastest Update #: <span id="update-num"></span></p>
+            <p>Lastest Update #: <span id="updateNum"></span></p>
         </section>
 
         <section>
@@ -73,21 +73,22 @@
 
     <main id="media" class=" darken-4 white-text">
         <section id="media-list">
-            <!-- Following markup written by javascript  -->
+            <!-- Following markup template written by javascript  -->
             <!--
-                 <div class="card">
+               <div class="card">
                     <div class="card-content black-text">
-                        <span class="card-title">Update #: 45</span>
-                        <p>Date: 3/23/2020</p>
-                        <p>Tested: 332</p>
-                        <p>Imported Cases: 52</p>
-                        <p>Community Cases: 1</p>
+                        <span class="card-title">Update #: 50</span>
+                        <p>Date: 3/26/2020</p>
+                        <p>Tested: 415</p>
+                        <p>Contact: undefined</p>
+                        <p>Imported Cases: 65</p>
+                        <p>Community Cases: 0</p>
                     </div>
                     <div class="card-action">
-                        <a href="https://www.facebook.com/MinistryofHealthTT/photos/a.727164953979982/3225626787467107/?type=3&amp;theater" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
-                        <a href="#deleteModal" class="modal-trigger" style="font-weight: 700">Delete</a>
+                        <a href="" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
+                        <a href="#deleteModal" class="modal-trigger red-text darken-2" onclick="selected = 1" style="font-weight: 700">Delete</a>
                     </div>
-                </div> 
+                </div>
              -->
         </section>
         <a class="btn-floating btn-large waves-effect waves-light red modal-trigger" id="addFab" href="#addModal"><i class="material-icons">add</i></a>
@@ -105,15 +106,15 @@
     <div id="addModal" class="modal">
         <div class="modal-content">
             <h4>Add Update</h4>
-            <form class="col s12" name="addForm">
+            <form class="col s12" name="createForm">
                 <div class="row">
                     <div class="input-field col s8">
                         <input placeholder="Enter admin password" name="password" type="password">
                         <label for="password">Password</label>
                     </div>
                     <div class="input-field col s4">
-                        <input placeholder="Update #" name="update-num" type="number">
-                        <label for="update-num">Update #</label>
+                        <input placeholder="Update #" name="updateNum" type="number">
+                        <label for="updateNum">Update #</label>
                     </div>
                 </div>
                 <div class="row">
@@ -129,21 +130,21 @@
                 <div class="row">
                     <div class="input-field col s6">
                         <input placeholder="Placeholder" name="tested" type="number">
-                        <label for="update-num">Tested</label>
+                        <label for="tested">Tested</label>
                     </div>
                     <div class="input-field col s6">
                         <input placeholder="Placeholder" name="imported" type="number">
-                        <label for="update-num">Imported</label>
+                        <label for="imported">Imported</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
                         <input placeholder="Placeholder" name="contact" type="number">
-                        <label for="update-num">Contact</label>
+                        <label for="contact">Contact</label>
                     </div>
                     <div class="input-field col s6">
                         <input placeholder="Placeholder" name="community" type="number">
-                        <label for="update-num">Community</label>
+                        <label for="community">Community</label>
                     </div>
                 </div>
                 <div class="row">     
@@ -157,7 +158,7 @@
 
     <div id="deleteModal" class="modal">
         <div class="modal-content">
-            <h4>Delete Update</h4>
+            <h4>Delete Record ID: <span id="selected"></span></h4>
             <form class="col s12" name="deleteForm">
                 <div class="row">
                     <div class="input-field col s12">
