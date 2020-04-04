@@ -117,6 +117,12 @@ function main(){
         }
     });
 
+    window.addEventListener('DOMContentLoaded', () => {
+        const url = new URL(window.location).searchParams.get('url');
+        document.querySelector('#url').value = url;
+    });
+
+
     document.forms['createForm'].addEventListener('submit', createReport);
     document.forms['deleteForm'].addEventListener('submit', deleteReport);
 

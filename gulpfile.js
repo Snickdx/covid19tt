@@ -1,61 +1,56 @@
-'use strict';
+const gulp = require("gulp");
+const browserify = require("browserify");
+const source = require("vinyl-source-stream");
+const buffer = require("vinyl-buffer");
+const babelify = require("babelify");
+const uglify = require("gulp-uglify");
+const htmlmin = require("gulp-htmlmin");
+const postcss = require("gulp-postcss");
+const cssnano = require("cssnano");
+const del = require("del");
 
-var autoprefixer = require('gulp-autoprefixer');
-var csso = require('gulp-csso');
-var del = require('del');
-var gulp = require('gulp');
-var htmlmin = require('gulp-htmlmin');
-var runSequence = require('run-sequence');
-var sass = require('gulp-sass');
-const minify = require('gulp-minify');
-const workbox = require('workbox-build');
+const paths = {
+	source: "./src",
+	build: "./public"
+};
 
+function javascriptBuild() {
+	return browserify({
+		entries: [`${paths.source}/scripts/main.js`],
+		transform: [babelify.configure({ presets: ["@babel/preset-env"] })]
+	})
+		.bundle()
+		.pipe(source("bundle.js"))
+		.pipe(buffer())
+		.pipe(uglify())
+		.pipe(gulp.dest(`${paths.build}/scripts`));
+}
 
-const dist = './public/';
+function htmlBuild() {
+	return gulp
+		.src(`${paths.source}/*.html`)
+		.pipe(htmlmin())
+		.pipe(gulp.dest(paths.build));
+}
 
-// Gulp task to minify CSS files
-gulp.task('styles', function () {
-  return gulp.src('./src/main.css')
-    // Minify the file
-    .pipe(csso())
-    // Output
-    .pipe(gulp.dest(dist))
-});
+function cssBuild() {
+	return gulp
+		.src(`${paths.source}/styles/**/*.css`)
+		.pipe(postcss([cssnano()]))
+		.pipe(gulp.dest(`${paths.build}/styles`));
+}
 
-// Gulp task to minify JavaScript files
-gulp.task('scripts', function() {
-  gulp.src(['./src/*.js'])
-    .pipe(minify({
-        noSource:true,
-         ext:{
-            min:'.js'
-        },
-    }))
-    .pipe(gulp.dest(dist))
-});
+function cleanup() {
+	return del([paths.build]);
+}
 
-
-// Gulp task to minify HTML files
-gulp.task('pages', function() {
-  return gulp.src(['./src/**/*.html'])
-    .pipe(htmlmin({
-      collapseWhitespace: true,
-      removeComments: true
-    }))
-    .pipe(gulp.dest(dist));
-});
-
-gulp.task('assets', function(){
+function assets(){
     return gulp.src(['src/assets/**/*'])
         .pipe(gulp.dest('public/assets'));
-});
+}
 
-gulp.task('manifest', function(){
-    return gulp.src(['src/manifest.json'])
-        .pipe(gulp.dest('public/'));
-});
 
-gulp.task('generate-service-worker', () => {
+function serviceWorker(){
   return workbox.generateSW({
     globDirectory: dist,
     globPatterns: [
@@ -73,20 +68,13 @@ gulp.task('generate-service-worker', () => {
   }).catch((error) => {
     console.warn('Service worker generation failed:', error);
   });
-});
+}
 
 
-// Clean output directory
-gulp.task('clean', () => del(['public']));
-
-// Gulp task to minify all files
-gulp.task('default', ['clean'], function () {
-  runSequence(
-    'styles',
-    'scripts',
-    'pages',
-    'assets',
-    'manifest',
-    'generate-service-worker'
-  );
-});
+// Run using gulp or gulp build
+exports.default = exports.build = gulp.series(
+    cleanup,
+    assets,
+    gulp.parallel(javascriptBuild, htmlBuild, cssBuild),
+    serviceWorker
+);
