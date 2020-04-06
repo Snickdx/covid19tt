@@ -1,9 +1,23 @@
 let selected;
+let messaging;
+let addModal;
+let deleteModal;
+
+addModal = M.Modal.init(document.querySelector('#addModal'));
+
+deleteModal = M.Modal.init(document.querySelector('#deleteModal'), {
+    onOpenStart : function(){
+        document.querySelector("#selected").innerHTML = selected;
+    }
+});
+
+M.Tabs.init(document.querySelector(".tabs"));
 
 function registerSW(){
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(registration => {
             console.log('SW registered: ', registration);
+            firebase.messaging().useServiceWorker(registration);
         }).catch(registrationError => {
             console.log('SW registration failed: ', registrationError);
         });
@@ -106,29 +120,79 @@ function getData(){
     displayLastRecord(lastRec);
 }
 
-function main(){
-    M.Tabs.init(document.querySelector(".tabs"));
-    const addModal = M.Modal.init(document.querySelector('#addModal'));
+async function requestNotifications(){
+   
+  try {
+    await messaging.requestPermission();
+    const token = await messaging.getToken();
+    console.log(token);
+  } catch (error) {
+    console.error(error);
+  }
 
-    // https://materializecss.com/modals.html
-    const deleteModal = M.Modal.init(document.querySelector('#deleteModal'), {
-        onOpenStart : function(){
-            document.querySelector("#selected").innerHTML = selected;
+}
+
+async function getMsgToken(){
+    try{
+        const currentToken = await messaging.getToken();
+        if (currentToken) {
+            //sendTokenToServer(currentToken);
+            //updateUIForPushEnabled(currentToken);
+            return currentToken;
+        } else {
+            // Show permission request.
+            console.log('No Instance ID token available. Request permission to generate one.');
+            // Show permission UI.
+            //updateUIForPushPermissionRequired();
+            //setTokenSentToServer(false);
         }
-    });
+    }catch(e){
+        console.log('An error occurred while retrieving token. ', err);
+        showToken('Error retrieving Instance ID token. ', err);
+    }
+}
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const url = new URL(window.location).searchParams.get('url');
-        document.querySelector('#url').value = url;
-    });
+async function tokenRefresh(){
 
+    try{
+        const refreshedToken = await messaging.getToken();
+        // app server.
+        //setTokenSentToServer(false);
+        // Send Instance ID token to app server.
+        //sendTokenToServer(refreshedToken);
+    }catch(e){
+        console.log('Unable to retrieve refreshed token ', err);
+        //showToken('Unable to retrieve refreshed token ', err);
+    }
 
+}
+
+function toggleMsg(event){
+    const enabled = event.target.checked;
+    if(enabled){
+        requestNotifications();
+    }
+}
+
+async function foregroundMsg(payload){
+    console.log('Message: ', payload);
+}
+
+function toast(message){
+    M.toast({html: message});
+}
+
+function main(){
+    messaging = firebase.messaging();
+    messaging.usePublicVapidKey("BAqoB57ExCmPU2hHer0NWSqTsHgAABG78b0IB_KkAqfAg63k9MG8Q8vqXETs0wDcBckFbsTUs191L39nW7M-EsU");
+    messaging.onTokenRefresh(tokenRefresh);
+    messaging.onMessage(foregroundMsg);
+
+    document.querySelector('#msgEnabled').addEventListener('click', toggleMsg);
     document.forms['createForm'].addEventListener('submit', createReport);
     document.forms['deleteForm'].addEventListener('submit', deleteReport);
 
     getData();
-
-    
     fixAccessbility();
     registerSW();
 }

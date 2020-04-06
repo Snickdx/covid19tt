@@ -8,13 +8,6 @@
 	"theme_color" : "#e53935",
 	"url" : "https://covid19tt.web.app",
 	"orientation" : "portrait",
-    "share_target": {
-        "action": "/",
-        "method": "GET",
-        "params": {
-            "url": "url"
-        }   
-    },
 	"icons" : [
         {
             "src": "./assets/img/512.png",

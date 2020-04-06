@@ -25,13 +25,13 @@
 
     <meta name="theme-color" content="#e53935">
 
-
     <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.10/pwacompat.min.js"
     integrity="sha384-I1iiXcTSM6j2xczpDckV+qhhbqiip6FyD6R5CpuqNaWXvyDUvXN5ZhIiyLQ7uuTh"
     crossorigin="anonymous"></script>
-    <script src="/__/firebase/7.12.0/firebase-app.js"></script>
-    <script src="/__/firebase/7.12.0/firebase-analytics.js"></script>
-    <script src="/__/firebase/init.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-analytics.js"></script>
+    <script defer src="/__/firebase/7.12.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
 
 </head>
 <body>
@@ -44,8 +44,7 @@
                 <ul class="tabs tabs-transparent">
                     <li class="tab"><a class="active" role="button" href="#status">Status</a></li>
                     <li class="tab"><a href="#media" role="button" >Media Releases</a></li>
-                    <!-- <li class="tab"><a href="#videos">Press Videos</a></li>
-                    <li class="tab"><a href="#people">People's Voice</a></li> -->
+                    <li class="tab"><a href="#settings" role="button" >Settings</a></li>
                 </ul>
             </div>
         </nav>    
@@ -76,36 +75,30 @@
 
     </main>
 
-    <main id="media" class=" darken-4 white-text">
+    <main id="media" class="darken-4 white-text">
         <section id="media-list">
-            <!-- Following markup template written by javascript  -->
-            <!--
-               <div class="card">
-                    <div class="card-content black-text">
-                        <span class="card-title">Update #: 50</span>
-                        <p>Date: 3/26/2020</p>
-                        <p>Tested: 415</p>
-                        <p>Contact: undefined</p>
-                        <p>Imported Cases: 65</p>
-                        <p>Community Cases: 0</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
-                        <a href="#deleteModal" class="modal-trigger red-text darken-2" onclick="selected = 1" style="font-weight: 700">Delete</a>
-                    </div>
-                </div>
-             -->
         </section>
         <a class="btn-floating btn-large waves-effect waves-light red modal-trigger" id="addFab" href="#addModal"><i class="material-icons">add</i></a>
     </main>
 
-    <!--  <main id="videos" class="col s12">
-
+    <main id="settings" class="grey darken-4 white-text">
+        <div class="container">
+            <ul class="collection">
+                <li class="collection-item grey darken-4 white-text">
+                        
+                    <div class="switch grey darken-4 white-text">
+                        Notifications
+                        <label class="right">
+                        Off
+                        <input id="msgEnabled" type="checkbox">
+                        <span class="lever"></span>
+                        On
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </main>
-
-    <main id="people" class="col s12">
-    
-    </main> -->
 
       <!-- Modal Structure -->
     <div id="addModal" class="modal">

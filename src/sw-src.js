@@ -20,7 +20,7 @@ const {CacheFirst} = workbox.strategies;
 const {CacheableResponse} = workbox.cacheableResponse;
 const {precacheAndRoute} = workbox.precacheAndRoute;
 
-precacheAndRoute([{"revision":"f750350fa494206908b0bbad5a76b15e","url":"assets/img/192.png"},{"revision":"7a7d7292470f92e3279164cfcef7248b","url":"assets/img/512.png"},{"revision":"2fb9a7b8272296ef8b76e7eec908b597","url":"assets/img/favicon.ico"},{"revision":"33d6308368e200a199a5376ae5f62312","url":"assets/img/maskable-512.png"},{"revision":"6c405e367d1a25b5f7a9fd1fc7fe7b4f","url":"charts.js"},{"revision":"f9ffa467bdd324b174e29b7c25dcddde","url":"data.js"},{"revision":"b71c62135dda909ffd7147e2d7de33fe","url":"index.html"},{"revision":"c133104403cb8cca85fed805033adcdd","url":"main.css"},{"revision":"c83a62a062aef2dc9cc0c2312fde896a","url":"main.js"},{"revision":"6f786056463cd61379b3b15906b42575","url":"sw-src.js"}]);
+precacheAndRoute(self.__WB_MANIFEST);
 
 registerRoute(
   /\.(?:png|jpg|jpeg|svg|gif)$/,

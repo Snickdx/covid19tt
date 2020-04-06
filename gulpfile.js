@@ -3,14 +3,13 @@ const htmlmin = require("gulp-htmlmin");
 const postcss = require("gulp-postcss");
 const cssnano = require("cssnano");
 const del = require("del");
-const workbox = require('workbox-build');
+const {injectManifest} = require('workbox-build');
 const minify = require('gulp-minify');
 
 const paths = {
 	source: "./src",
 	build: "./public"
 };
-
 
 function javascriptBuild() {
   return gulp.src([`${paths.source}/*.js`])
@@ -48,22 +47,18 @@ function assets(){
 
 
 function serviceWorker(){
-  return workbox.generateSW({
-    globDirectory: paths.build,
-    globPatterns: [
-      '\*\*/\*.{html,js}'
-    ],
-    swDest: `${paths.build}/sw.js`,
-    clientsClaim: true,
-    skipWaiting: true
-  }).then(({warnings}) => {
-    for (const warning of warnings) {
-      console.warn(warning);
-    }
-    console.info('Service worker generation completed.');
-  }).catch((error) => {
-    console.warn('Service worker generation failed:', error);
-  });
+
+    return injectManifest({
+        swSrc: `${paths.source}/sw-src.js`,
+        swDest: `${paths.build}/sw.js`,
+        globDirectory: paths.build,
+        globPatterns: [
+            "**/*.{png,ico,js,html,css}"
+        ]
+    }).then(({count, size}) => {
+        console.log(`Generated sw.js, which will precache ${count} files, totaling ${size} bytes.`);
+    });
+
 }
 
 exports.default = exports.build = gulp.series(

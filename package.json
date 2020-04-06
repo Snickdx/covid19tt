@@ -6,7 +6,7 @@
   "scripts": {
     "build": "gulp",
     "deploy": "firebase deploy --only hosting --token $COVIDFB",
-    "serve": "firebase serve --token $COVIDFB"
+    "serve": "firebase serve --host 0.0.0.0 --token $COVIDFB"
   },
   "repository": {
     "type": "git",

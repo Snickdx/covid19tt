@@ -10,7 +10,7 @@ html{
     font-size: 20px;
 }
 
-#status, #videos, #people, #media{
+main{
     margin-top: 70px;
 }
 
@@ -19,6 +19,7 @@ html{
     bottom: 50px;
     right: 25px;
 }
+
  
 
 h1{
