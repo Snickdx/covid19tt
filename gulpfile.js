@@ -1,29 +1,26 @@
 const gulp = require("gulp");
-const browserify = require("browserify");
-const source = require("vinyl-source-stream");
-const buffer = require("vinyl-buffer");
-const babelify = require("babelify");
-const uglify = require("gulp-uglify");
 const htmlmin = require("gulp-htmlmin");
 const postcss = require("gulp-postcss");
 const cssnano = require("cssnano");
 const del = require("del");
+const workbox = require('workbox-build');
+const minify = require('gulp-minify');
 
 const paths = {
 	source: "./src",
 	build: "./public"
 };
 
+
 function javascriptBuild() {
-	return browserify({
-		entries: [`${paths.source}/scripts/main.js`],
-		transform: [babelify.configure({ presets: ["@babel/preset-env"] })]
-	})
-		.bundle()
-		.pipe(source("bundle.js"))
-		.pipe(buffer())
-		.pipe(uglify())
-		.pipe(gulp.dest(`${paths.build}/scripts`));
+  return gulp.src([`${paths.source}/*.js`])
+    .pipe(minify({
+        noSource:true,
+         ext:{
+            min:'.js'
+        },
+    }))
+    .pipe(gulp.dest(paths.build))
 }
 
 function htmlBuild() {
@@ -35,9 +32,9 @@ function htmlBuild() {
 
 function cssBuild() {
 	return gulp
-		.src(`${paths.source}/styles/**/*.css`)
+		.src(`${paths.source}/*.css`)
 		.pipe(postcss([cssnano()]))
-		.pipe(gulp.dest(`${paths.build}/styles`));
+		.pipe(gulp.dest(`${paths.build}`));
 }
 
 function cleanup() {
@@ -45,22 +42,21 @@ function cleanup() {
 }
 
 function assets(){
-    return gulp.src(['src/assets/**/*'])
-        .pipe(gulp.dest('public/assets'));
+    return gulp.src([`${paths.source}/assets/**/*`])
+        .pipe(gulp.dest(`${paths.build}/assets`));
 }
 
 
 function serviceWorker(){
   return workbox.generateSW({
-    globDirectory: dist,
+    globDirectory: paths.build,
     globPatterns: [
       '\*\*/\*.{html,js}'
     ],
-    swDest: `${dist}/sw.js`,
+    swDest: `${paths.build}/sw.js`,
     clientsClaim: true,
     skipWaiting: true
   }).then(({warnings}) => {
-    // In case there are any warnings from workbox-build, log them.
     for (const warning of warnings) {
       console.warn(warning);
     }
@@ -70,8 +66,6 @@ function serviceWorker(){
   });
 }
 
-
-// Run using gulp or gulp build
 exports.default = exports.build = gulp.series(
     cleanup,
     assets,
