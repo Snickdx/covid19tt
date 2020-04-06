@@ -18,9 +18,8 @@ if(!DEBUG)workbox.googleAnalytics.initialize();
 const {registerRoute} = workbox.routing;
 const {CacheFirst} = workbox.strategies;
 const {CacheableResponse} = workbox.cacheableResponse;
-const {precacheAndRoute} = workbox.precacheAndRoute;
 
-precacheAndRoute(self.__WB_MANIFEST);
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
 registerRoute(
   /\.(?:png|jpg|jpeg|svg|gif)$/,
