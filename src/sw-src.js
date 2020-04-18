@@ -3,9 +3,9 @@ importScripts('/__/firebase/7.12.0/firebase-app.js');
 importScripts('/__/firebase/7.12.0/firebase-messaging.js');
 importScripts('/__/firebase/init.js');
 
-const messaging = firebase.messaging();
-
 // https://www.freecodecamp.org/news/how-to-add-push-notifications-to-a-web-app-with-firebase-528a702e13e1/
+
+const messaging = firebase.messaging();
 
 const DEBUG = false;
 
@@ -17,7 +17,7 @@ if(!DEBUG)workbox.googleAnalytics.initialize();
 
 const {registerRoute} = workbox.routing;
 const {CacheFirst} = workbox.strategies;
-const {CacheableResponse} = workbox.cacheableResponse;
+const {CacheableResponsePlugin} = workbox.cacheableResponse;
 
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
@@ -29,15 +29,6 @@ registerRoute(
     ],
   })
 );
-
-// Handle incoming messages. Called when:
-// - a message is received while the app has focus
-// - the user clicks on an app notification created by a service worker
-//   `messaging.setBackgroundMessageHandler` handler.
-messaging.onMessage((payload) => {
-  console.log('Message received. ', payload);
-  // ...
-});
 
 
 messaging.setBackgroundMessageHandler(function(payload) {
