@@ -19,8 +19,8 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
     return cors(request, response, async ()=>{
         if(request.body.token){
             try{
-                let response = await admin.messaging().subscribeToTopic(request.body.token, 'covid_alerts');
-                request.send(response);
+                let res = await admin.messaging().subscribeToTopic(request.body.token, 'covid_alerts');
+                response.send(res);
             }catch(e){
                 console.error(e);
                 response.send(e);
@@ -42,7 +42,7 @@ exports.sendAlert = functions.firestore.document('/releases/{documentId}').onCre
                 notification : {
                     "title":`Covid19TT Alert: #${release.id} Released`,
                     "body": `Tested: ${release.tested}\n Positive: ${positive}\n Deaths: ${deaths}`,
-                    "icon": "https://covid19tt.web.app/assets/img/512.png"
+                    "image": "https://covid19tt.web.app/assets/img/512.png"
                 },
                 topic: 'covid_alerts',
                 webpush: {
