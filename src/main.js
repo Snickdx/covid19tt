@@ -63,7 +63,7 @@ function displayMedia(data){
             </div>
             <div class="card-action">
                 <a href="${ele.url}" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
-                <a href="#" class="deleteBtn red-text darken-2" onclick="deleteData(${ele.id})" style="font-weight: 700; display:none">Delete</a>
+                <a href="#" class="deleteBtn red-text darken-2" onclick="deleteData(${ele.id})" style="font-weight: 700; display:${auth ? "block":"none"}">Delete</a>
             </div>
         </div>
         `;
@@ -97,14 +97,13 @@ async function postData(url, data){
 async function deleteData(id){
     
     try{
-        const result = await db.collection('releases').doc(""+id).set(undefined);
+        const result = await db.collection('releases').doc(""+id).delete();
         console.log(id, result);
         toast('Report Deleted!');
     }catch(e){
         toast('Error: Insufficient Permissions');
+        console.log(e);
     }
-
-    getData();
 }
 
 async function createReport(event){
@@ -131,18 +130,11 @@ async function createReport(event){
     }catch(e){
         toast('Error: Insufficient Permissions');
     }
-
     
 }
 
 
-async function getData(){
-    const snapshot = await releasesRef.get();
-    let records = [];
-    snapshot.forEach(doc => {
-        records.push(doc.data());
-    });
-
+async function displayData(records){
     //pass the records to this function
     displayLineChart(records);
 
@@ -248,6 +240,7 @@ function getAuth(){
             logoutBtn.style.display = "block";
             deleteBtns.forEach( btn => btn.style.display = "block");
         } else {
+            auth = undefined;
             addFab.style.display = "none";
             loginBtn.style.display = "block";
             logoutBtn.style.display = "none";
@@ -258,6 +251,16 @@ function getAuth(){
 
 function toast(message){
     M.toast({html: message});
+}
+
+function monitorCollection(){
+    releasesRef.onSnapshot(querySnapshot => {
+        records = [];
+        querySnapshot.forEach(doc=>{
+            records.push(doc.data());
+        })
+        displayData(records);
+    });
 }
 
 async function main(){
@@ -271,10 +274,16 @@ async function main(){
     document.querySelector('#logoutBtn').addEventListener('click', logout);
     document.forms['createForm'].addEventListener('submit', createReport);
 
- 
-    await getData();
+    const snapshot = await releasesRef.get();
+    let records = [];
+    snapshot.forEach(doc => {
+        records.push(doc.data());
+    });
+
+    displayData(records);
     getAuth();
 
+    monitorCollection();
     fixAccessbility();
     registerSW();
     checkAlertStatus();
