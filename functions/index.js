@@ -30,19 +30,19 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
 });
 
 
-exports.sendAlert = functions.firestore.document('/releases/{documentId}')
-    .onCreate((snap, context) => {
+exports.sendAlert = functions.firestore.document('/releases/{documentId}').onCreate(async (snap, context) => {
 
       const release = snap.data();
       let {positive, deaths} = release.cases;
       console.log(release);
+      
       if(release.notify){
-            var message = {
+          try{
+             const message = {
                 notification : {
                     "title":`Covid19TT Alert: #${release.id} Released`,
                     "body": `Tested: ${release.tested}\n Positive: ${positive}\n Deaths: ${deaths}`,
-                    "icon": "https://covid19tt.web.app/assets/img/512.png",
-                    "requireInteraction": true
+                    "icon": "https://covid19tt.web.app/assets/img/512.png"
                 },
                 topic: 'covid_alerts',
                 webpush: {
@@ -51,17 +51,12 @@ exports.sendAlert = functions.firestore.document('/releases/{documentId}')
                     }
                 }
             };
-
-            admin.messaging()
-                .send(message)
-                .then((response) => {
-                    console.log('Successfully sent message:', response);
-                })
-                .catch((error) => {
-                    console.log('Error sending message:', error);
-                });
+            const response = await admin.messaging().send(message);
+            console.log('Successfully sent message:', response);
+          }catch(e){
+              console.error(e);
+          }
       }
 
-      return snap.ref.set({uppercase}, {merge: true});
-      // [END makeUppercaseBody]
-    });
+      return release.notify ? "Attempted Notification": "No notification sent";
+});

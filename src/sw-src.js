@@ -20,8 +20,8 @@ const {CacheFirst} = workbox.strategies;
 const {CacheableResponsePlugin} = workbox.cacheableResponse;
 
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
-workbox.clientsClaim();
-workbox.skipWaiting();
+// workbox.clientsClaim();
+// workbox.skipWaiting();
 
 registerRoute(
   /\.(?:png|jpg|jpeg|svg|gif)$/,

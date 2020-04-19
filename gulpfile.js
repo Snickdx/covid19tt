@@ -45,6 +45,11 @@ function assets(){
         .pipe(gulp.dest(`${paths.build}/assets`));
 }
 
+function manifest(){
+    return gulp.src([`${paths.source}/manifest.json`])
+        .pipe(gulp.dest(`${paths.build}`));
+}
+
 
 function serviceWorker(){
 
@@ -53,7 +58,7 @@ function serviceWorker(){
         swDest: `${paths.build}/sw.js`,
         globDirectory: paths.build,
         globPatterns: [
-            "**/*.{png,ico,js,html,css}"
+            "**/*.{png,ico,js,html,css,json}"
         ]
     }).then(({count, size}) => {
         console.log(`Generated sw.js, which will precache ${count} files, totaling ${size} bytes.`);
@@ -64,6 +69,7 @@ function serviceWorker(){
 exports.default = exports.build = gulp.series(
     cleanup,
     assets,
+    manifest,
     gulp.parallel(javascriptBuild, htmlBuild, cssBuild),
     serviceWorker
 );
