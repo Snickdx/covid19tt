@@ -35,13 +35,21 @@ exports.sendAlert = functions.firestore.document('/releases/{documentId}')
 
       const release = snap.data();
       let {positive, deaths} = release.cases;
+      console.log(release);
       if(release.notify){
             var message = {
                 notification : {
+                    "title":`Covid19TT Alert: #${release.id} Released`,
                     "body": `Tested: ${release.tested}\n Positive: ${positive}\n Deaths: ${deaths}`,
-                    "title":`Covid19TT Alert: Update #${release.updateNum} Released`
+                    "icon": "https://covid19tt.web.app/assets/img/512.png",
+                    "requireInteraction": true
                 },
-                topic: 'covid_alerts'
+                topic: 'covid_alerts',
+                webpush: {
+                    "fcm_options": {
+                        "link": "https://covid19tt.web.app"
+                    }
+                }
             };
 
             admin.messaging()

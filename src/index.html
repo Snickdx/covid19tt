@@ -45,7 +45,10 @@
             <div class="nav-wrapper red darken-2">
                 <span class="title">Covid 19 In T&T</span>
                  <ul class="right">
-                    <li style="line-height:50px"><a href="#loginModal" class="modal-trigger" id="loginBtn">Admin</a></li>
+                    <li style="line-height:50px">
+                        <a href="#loginModal" class="modal-trigger" id="loginBtn">Admin</a>
+                        <a href="#" style="display:none" id="logoutBtn">Logout</a>
+                    </li>
                 </ul>
             </div>
             <div class="nav-content red darken-2">
@@ -86,7 +89,7 @@
     <main id="media" class="darken-4 white-text">
         <section id="media-list">
         </section>
-        <a class="btn-floating btn-large waves-effect waves-light red modal-trigger" id="addFab" href="#addModal"><i class="material-icons">add</i></a>
+        <a class="btn-floating btn-large waves-effect waves-light red modal-trigger" style="display:none" id="addFab" href="#addModal"><i class="material-icons">add</i></a>
     </main>
 
     <main id="settings" class="grey darken-4 white-text">
@@ -116,12 +119,12 @@
             <form class="col s12" name="createForm">
                 <div class="row">
                    
-                    <div class="input-field col s3">
+                    <div class="input-field col s6">
                         <input placeholder="Update #" name="updateNum" type="number">
                         <label for="updateNum">Update #</label>
                     </div>
 
-                    <div class="input-field col s3">
+                    <div class="input-field col s6">
                         <div class="switch">
                             Notifiy
                             <label class="right">
@@ -173,28 +176,10 @@
         </div>
     </div>
 
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <h4>Delete Record ID: <span id="selected"></span></h4>
-            <form class="col s12" name="deleteForm">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input placeholder="Enter Admin Password" name="password" type="password">
-                        <label for="password">Password</label>
-                    </div>
-                </div>
-                <div class="row">     
-                    <button class="btn waves-effect waves-light modal-close right red" type="submit" name="action">Submit
-                        <i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div id="loginModal" class="modal modal-fixed-footer">
         <div class="modal-content">
             <h4>Admin Login</h4>
+            <h5>Note only the admin's google account would be able to make changes to this application.</h5>
             <div id="authContainer"></div>
         </div>
         <div class="modal-footer">

@@ -63,7 +63,7 @@ function displayMedia(data){
             </div>
             <div class="card-action">
                 <a href="${ele.url}" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
-                <a href="#deleteModal" class="modal-trigger red-text darken-2" onclick="selected = ${ele.id}" style="font-weight: 700">Delete</a>
+                <a href="#" class="deleteBtn red-text darken-2" onclick="deleteData(${ele.id})" style="font-weight: 700; display:none">Delete</a>
             </div>
         </div>
         `;
@@ -94,8 +94,16 @@ async function postData(url, data){
     }
 }
 
-function deleteData(){
-    //make delete request
+async function deleteData(id){
+    
+    try{
+        const result = await db.collection('releases').doc(""+id).set(undefined);
+        console.log(id, result);
+        toast('Report Deleted!');
+    }catch(e){
+        toast('Error: Insufficient Permissions');
+    }
+
     getData();
 }
 
@@ -104,35 +112,29 @@ async function createReport(event){
     event.preventDefault();
     let form = event.target.elements;
     let report = {
-        id: form['updateNum'].value,
+        id: parseInt(form['updateNum'].value),
         url: form['url'].value,
-        date: form['date'].value,
+        date: Math.floor(new Date(form['date'].value).getTime() / 1000),
         cases: {
-            deaths: form['deaths'].value,
-            positive: form['positive'].value,
-            discharged: form['discharged'].value,
+            deaths: parseInt(form['deaths'].value),
+            positive: parseInt(form['positive'].value),
+            discharged: parseInt(form['discharged'].value),
         },
-        notify: form['notify'].value,
-        tested: form['tested'].value
+        notify: form['notify'].value === 'on',
+        tested: parseInt(form['tested'].value)
     };
 
-    const result = await db.collection('releases').doc(report.id).set(report);
-    console.log(report.id, result);
-    
+    try{
+        const result = await db.collection('releases').doc(""+report.id).set(report);
+        console.log(report.id, result);
+        toast('Report Added!');
+    }catch(e){
+        toast('Error: Insufficient Permissions');
+    }
+
     
 }
 
-function deleteReport(event){
-    //get data form form and make delete request
-    console.log(selected);//selected is the id of the recored selected for deteletion
-    event.preventDefault();
-    let form = event.target.elements;
-    let data = {
-        id: selected,
-        password: form['password']
-    }
-    deleteData(data);
-}
 
 async function getData(){
     const snapshot = await releasesRef.get();
@@ -147,7 +149,7 @@ async function getData(){
     let lastRec = records.reverse()[0];
     
     //pass the records to this function in reverse order
-    displayMedia(records);
+    await displayMedia(records);
 
     //pass the latest record to these functions
     displayPieChart(lastRec);
@@ -201,7 +203,7 @@ async function checkAlertStatus(){
 }
 
 async function foregroundMsg(payload){
-    console.log('Message: ', payload);
+    console.log('Foreground Message: ', payload);
 }
 //End Notifications ************************************************* */
 
@@ -225,13 +227,31 @@ function login(modal){
     );
 }
 
+async function logout(){
+    let res = await firebase.auth().signOut();
+    console.log(res);
+    toast('Logged Out!');
+}
+
 function getAuth(){
+
+    const addFab = document.querySelector('#addFab');
+    const loginBtn = document.querySelector('#loginBtn');
+    const logoutBtn = document.querySelector('#logoutBtn');
+    const deleteBtns = document.querySelectorAll('.deleteBtn');
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             auth = user;
-            console.log('logged in');
+            addFab.style.display = "block";
+            loginBtn.style.display = "none";
+            logoutBtn.style.display = "block";
+            deleteBtns.forEach( btn => btn.style.display = "block");
         } else {
-            console.log('not logged in');
+            addFab.style.display = "none";
+            loginBtn.style.display = "block";
+            logoutBtn.style.display = "none";
+            deleteBtns.forEach( btn => btn.style.display = "none");
         }
     });
 }
@@ -240,7 +260,7 @@ function toast(message){
     M.toast({html: message});
 }
 
-function main(){
+async function main(){
     messaging = firebase.messaging();
     messaging.usePublicVapidKey("BAqoB57ExCmPU2hHer0NWSqTsHgAABG78b0IB_KkAqfAg63k9MG8Q8vqXETs0wDcBckFbsTUs191L39nW7M-EsU");
     messaging.onTokenRefresh(tokenRefresh);
@@ -248,11 +268,13 @@ function main(){
 
     document.querySelector('#msgEnabled').addEventListener('click', toggleMsg);
     document.querySelector('#loginBtn').addEventListener('click', login);
+    document.querySelector('#logoutBtn').addEventListener('click', logout);
     document.forms['createForm'].addEventListener('submit', createReport);
-    document.forms['deleteForm'].addEventListener('submit', deleteReport);
 
+ 
+    await getData();
     getAuth();
-    getData();
+
     fixAccessbility();
     registerSW();
     checkAlertStatus();

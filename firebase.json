@@ -1,5 +1,6 @@
 {
   "hosting": {
+      "site":"covid19tt",
     "public": "public",
     "ignore": [
       "firebase.json",
