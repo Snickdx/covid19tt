@@ -58,7 +58,7 @@ function serviceWorker(){
         swDest: `${paths.build}/sw.js`,
         globDirectory: paths.build,
         globPatterns: [
-            "**/*.{png,ico,js,html,css,json}"
+            "**/*.{png,ico,js,html,css,json,mp3}"
         ]
     }).then(({count, size}) => {
         console.log(`Generated sw.js, which will precache ${count} files, totaling ${size} bytes.`);

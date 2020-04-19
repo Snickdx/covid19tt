@@ -42,13 +42,19 @@ exports.sendAlert = functions.firestore.document('/releases/{documentId}').onCre
                 notification : {
                     "title":`Covid19TT Alert: #${release.id} Released`,
                     "body": `Tested: ${release.tested}\n Positive: ${positive}\n Deaths: ${deaths}`,
-                    "image": "https://covid19tt.web.app/assets/img/512.png"
+                    
                 },
                 topic: 'covid_alerts',
                 webpush: {
-                    "fcm_options": {
-                        "link": "https://covid19tt.web.app"
-                    }
+                    icon : "https://covid19tt.web.app/assets/img/512.png",
+                    badge: 'https://covid19tt.web.app/assets/img/192.png',
+                    timestamp : Date.now()/1000,
+                    sound: 'https://covid19tt.web.app/assets/coffin-dance.mp3',
+                    vibrate: [500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500],
+                    requireInteraction: true,
+                },
+                fcm_options: {
+                    "link": "https://covid19tt.web.app"
                 }
             };
             const response = await admin.messaging().send(message);

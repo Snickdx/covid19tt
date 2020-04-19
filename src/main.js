@@ -196,6 +196,7 @@ async function checkAlertStatus(){
 
 async function foregroundMsg(payload){
     console.log('Foreground Message: ', payload);
+    toast("Notification Received");
 }
 //End Notifications ************************************************* */
 
@@ -282,7 +283,6 @@ async function main(){
 
     displayData(records);
     getAuth();
-
     monitorCollection();
     fixAccessbility();
     registerSW();
