@@ -1,10 +1,9 @@
 function convertToLineData(data){
     let categories = [];
     let tested = [];
-    let imported = [];
+    let positive = [];
     let deaths = [];
-    let community = [];
-    let contact = [];
+    let discharged = [];
 
     let uniqeDates = {};
 
@@ -12,18 +11,16 @@ function convertToLineData(data){
     for (let ele of data){
         if(ele.date in uniqeDates){
             //console.log('replacing', data[i-1], 'with ', ele);
-            tested[i -1] = ele.tested;
-            imported[i -1] = ele.cases.imported;
+            tested[i - 1] = ele.tested;
+            positive[i -1] = ele.cases.positive;
             deaths[i - 1] = ele.cases.deaths;
-            community[i - 1] = ele.cases.community;
-            contact[i - 1] = ele.cases.contact;
+            discharged[i - 1] = ele.cases.discharged;
         }else{
             categories.push(`Day ${i}`);
             tested.push(ele.tested);
-            imported.push(ele.cases.imported);
+            positive.push(ele.cases.positive);
+            discharged.push(ele.cases.discharged);
             deaths.push(ele.cases.deaths);
-            community.push(ele.cases.community);
-            contact.push(ele.cases.contact);
             uniqeDates[ele.date] = true;
             i++;
         }
@@ -32,17 +29,16 @@ function convertToLineData(data){
 
     return {
         categories,
-        imported,
         deaths,
         tested,
-        community,
-        contact,
+        positive,
+        discharged,
     };
 }
 
 function displayLineChart(chartData){
 
-   let {categories, tested, imported, community, contact} = convertToLineData(chartData);
+   let {categories, tested, positive, discharged, deaths} = convertToLineData(chartData);
 
    let style = {
         fontFamily: 'monospace',
@@ -113,8 +109,8 @@ function displayLineChart(chartData){
     },
     series: [
       {
-          name: 'Imported',
-          data: imported,
+          name: 'Positive',
+          data: positive,
           dataLabels,
           label:{
              enabled: false,
@@ -129,16 +125,16 @@ function displayLineChart(chartData){
           }
       },
        {
-          name: 'Community',
-          data: community,
+          name: 'Deaths',
+          data: deaths,
           dataLabels,
           label:{
              enabled: false,
           }
       },
       {
-          name: 'Contact',
-          data: contact,
+          name: 'Discharged',
+          data: discharged,
           dataLabels,
           label:{
              enabled: false,
@@ -166,16 +162,16 @@ function displayLineChart(chartData){
 function displayPieChart({cases}){
     let data = [
          {
-            name: 'Imported',
-            y: cases.imported
+            name: 'Positive',
+            y: cases.positive
         },
         {
-            name: "Community",
-            y: cases.community,
+            name: "Deaths",
+            y: cases.deaths,
         },
         {
-            name: "Contact",
-            y: cases.contact,
+            name: "Dischagred",
+            y: cases.discharged,
         },
     ]
 
@@ -200,7 +196,7 @@ function displayPieChart({cases}){
         useHtml: true,
     },
     tooltip: {
-        pointFormat: '<b>{point.y} persons tested positive are {point.name}</b>'
+        pointFormat: '<b>{point.y} cases {point.name}</b>'
     },
     accessibility: {
         point: {

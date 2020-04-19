@@ -21,15 +21,20 @@
 
     <link rel="shortcut icon" href="./assets/img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css">
+
     <meta name="msapplication-TileColor" content="#E53935">
 
     <meta name="theme-color" content="#e53935">
 
     <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.10/pwacompat.min.js" integrity="sha384-I1iiXcTSM6j2xczpDckV+qhhbqiip6FyD6R5CpuqNaWXvyDUvXN5ZhIiyLQ7uuTh" crossorigin="anonymous"></script>
-    <script defer="defer" src="/__/firebase/7.12.0/firebase-app.js"></script>
-    <script defer="defer" src="/__/firebase/7.12.0/firebase-analytics.js"></script>
-    <script defer="defer" src="/__/firebase/7.12.0/firebase-messaging.js"></script>
+    <script defer="defer" src="/__/firebase/7.14.1/firebase-app.js"></script>
+    <script defer="defer" src="/__/firebase/7.14.1/firebase-auth.js"></script>
+    <script defer="defer" src="/__/firebase/7.14.1/firebase-analytics.js"></script>
+    <script defer="defer" src="/__/firebase/7.14.1/firebase-messaging.js"></script>
+    <script defer="defer" src="/__/firebase/7.14.1/firebase-firestore.js"></script>
     <script defer="defer" src="/__/firebase/init.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
 
 </head>
 <body>
@@ -37,6 +42,9 @@
         <nav class="nav-extended">
             <div class="nav-wrapper red darken-2">
                 <span class="title">Covid 19 In T&T</span>
+                 <ul class="right">
+                    <li style="line-height:50px"><a href="#loginModal" class="modal-trigger" id="loginBtn">Admin</a></li>
+                </ul>
             </div>
             <div class="nav-content red darken-2">
                 <ul class="tabs tabs-transparent">
@@ -87,16 +95,17 @@
                     <div class="switch grey darken-4 white-text">
                         Notifications
                         <label class="right">
-                        Off
-                        <input id="msgEnabled" type="checkbox">
-                        <span class="lever"></span>
-                        On
+                            Off
+                            <input id="msgEnabled" type="checkbox">
+                            <span class="lever"></span>
+                            On
                         </label>
                     </div>
                 </li>
             </ul>
         </div>
     </main>
+    
 
       <!-- Modal Structure -->
     <div id="addModal" class="modal">
@@ -104,14 +113,24 @@
             <h4>Add Update</h4>
             <form class="col s12" name="createForm">
                 <div class="row">
-                    <div class="input-field col s8">
-                        <input placeholder="Enter admin password" name="password" type="password">
-                        <label for="password">Password</label>
-                    </div>
-                    <div class="input-field col s4">
+                   
+                    <div class="input-field col s3">
                         <input placeholder="Update #" name="updateNum" type="number">
                         <label for="updateNum">Update #</label>
                     </div>
+
+                    <div class="input-field col s3">
+                        <div class="switch">
+                            Notifiy
+                            <label class="right">
+                                Off
+                                <input id="notify" type="checkbox">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="input-field col s7">
@@ -129,18 +148,18 @@
                         <label for="tested">Tested</label>
                     </div>
                     <div class="input-field col s6">
-                        <input placeholder="Placeholder" name="imported" type="number">
-                        <label for="imported">Imported</label>
+                        <input placeholder="Placeholder" name="positive" type="number">
+                        <label for="positive">Positive</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input placeholder="Placeholder" name="contact" type="number">
-                        <label for="contact">Contact</label>
+                        <input placeholder="Placeholder" name="deaths" type="number">
+                        <label for="deaths">Deaths</label>
                     </div>
                     <div class="input-field col s6">
-                        <input placeholder="Placeholder" name="community" type="number">
-                        <label for="community">Community</label>
+                        <input placeholder="Placeholder" name="discharged" type="number">
+                        <label for="discharged">Discharged</label>
                     </div>
                 </div>
                 <div class="row">     
@@ -171,6 +190,18 @@
         </div>
     </div>
 
+    <div id="loginModal" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Admin Login</h4>
+            <div id="authContainer"></div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -186,8 +217,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <script src="data.js"></script>
-    <script src="charts.js"></script>
-    <script src="main.js"></script>
+    <script defer="defer" src="charts.js"></script>
+    <script defer="defer" src="main.js"></script>
 </body>
 </html>

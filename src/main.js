@@ -2,6 +2,16 @@ let selected;
 let messaging;
 let addModal;
 let deleteModal;
+let auth;
+
+const db = firebase.firestore();
+
+const releasesRef = db.collection("releases");
+
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+// const server = "https://5001-ca298c3b-c43c-48c2-a4b3-3591bce75459.ws-us02.gitpod.io/snickbox-203303/us-central1";
+const server = "https://us-central1-snickbox-203303.cloudfunctions.net";
 
 addModal = M.Modal.init(document.querySelector('#addModal'));
 
@@ -10,6 +20,11 @@ deleteModal = M.Modal.init(document.querySelector('#deleteModal'), {
         document.querySelector("#selected").innerHTML = selected;
     }
 });
+
+loginModal = M.Modal.init(document.querySelector('#loginModal'), {
+    onOpenStart:login
+});
+
 
 M.Tabs.init(document.querySelector(".tabs"));
 
@@ -25,9 +40,9 @@ function registerSW(){
 }
 
 function displayLastRecord(data){
-    document.querySelector('#cases').innerHTML = data.cases.imported + data.cases.community;
+    document.querySelector('#cases').innerHTML = data.cases.positive;
     document.querySelector('#date').innerHTML = new Date(data.date*1000).toLocaleDateString('en-US');
-    document.querySelector('#updateNum').innerHTML = data['updateNum'];
+    document.querySelector('#updateNum').innerHTML = data.id;
 }
 
 function displayMedia(data){
@@ -38,12 +53,13 @@ function displayMedia(data){
         str+=`
         <div class="card">
             <div class="card-content black-text">
-                <span class="card-title">Update #: ${ele['updateNum']}</span>
+                <span class="card-title">Update #: ${ele.id}</span>
                 <p>Date: ${(new Date(ele.date*1000)).toLocaleDateString('en-US')}</p>
                 <p>Tested: ${ele.tested}</p>
-                <p>Contact: ${ele.contact}</p>
-                <p>Imported Cases: ${ele.cases.imported}</p>
-                <p>Community Cases: ${ele.cases.community}</p>
+                <p>Current Positive Cases: ${ele.cases.positive}</p>
+                <p>Total Deaths Cases: ${ele.cases.deaths}</p>
+                <p>Total Discharged: ${ele.cases.discharged}</p>
+                <p>Deaths: ${ele.cases.deaths}</p>
             </div>
             <div class="card-action">
                 <a href="${ele.url}" rel="noopener" target="_blank" style="font-weight: 700" class="red-text darken-2">View on Facebook</a>
@@ -62,9 +78,20 @@ function fixAccessbility(){
     img.setAttribute('aria-hidden', true);
 }
 
-function postData(data){
-    //make post request
-    getData();
+async function postData(url, data){
+    try{
+        let response = await fetch(
+            url, 
+            {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            },//convert data to JSON string
+        );//1. Send http request and get response
+        return response.json();
+    }catch(error){
+        return error;
+    }
 }
 
 function deleteData(){
@@ -72,23 +99,27 @@ function deleteData(){
     getData();
 }
 
-function createReport(event){
+async function createReport(event){
     //get data from form and pass to postData
     event.preventDefault();
     let form = event.target.elements;
     let report = {
-        password: form['password'],
-        updateNum: form['updateNum'],
-        url: form['url'],
-        date: form['date'],
+        id: form['updateNum'].value,
+        url: form['url'].value,
+        date: form['date'].value,
         cases: {
-            deaths: form['deaths'],
-            imported: form['imported'],
-            community: form['community'],
+            deaths: form['deaths'].value,
+            positive: form['positive'].value,
+            discharged: form['discharged'].value,
         },
-        tested: form['tested']
+        notify: form['notify'].value,
+        tested: form['tested'].value
     };
-    postData(report);
+
+    const result = await db.collection('releases').doc(report.id).set(report);
+    console.log(report.id, result);
+    
+    
 }
 
 function deleteReport(event){
@@ -103,9 +134,12 @@ function deleteReport(event){
     deleteData(data);
 }
 
-function getData(){
-    //make get request for data
-    let records = getReports();
+async function getData(){
+    const snapshot = await releasesRef.get();
+    let records = [];
+    snapshot.forEach(doc => {
+        records.push(doc.data());
+    });
 
     //pass the records to this function
     displayLineChart(records);
@@ -120,62 +154,86 @@ function getData(){
     displayLastRecord(lastRec);
 }
 
+/// Notifications ******************************
 async function requestNotifications(){
    
   try {
     await messaging.requestPermission();
     const token = await messaging.getToken();
-    console.log(token);
+    localStorage.setItem('covid-token', token);
+    let res = await postData(`${server}/subscribe`, {token});
+    console.log(token, res);
+    toast('Notifications Enabled!');
   } catch (error) {
     console.error(error);
   }
 
 }
 
-async function getMsgToken(){
+async function tokenRefresh(){
     try{
-        const currentToken = await messaging.getToken();
-        if (currentToken) {
-            //sendTokenToServer(currentToken);
-            //updateUIForPushEnabled(currentToken);
-            return currentToken;
-        } else {
-            // Show permission request.
-            console.log('No Instance ID token available. Request permission to generate one.');
-            // Show permission UI.
-            //updateUIForPushPermissionRequired();
-            //setTokenSentToServer(false);
-        }
+        const refreshedToken = await messaging.getToken();
+        localStorage.set('covid-token', refreshedToken);
     }catch(e){
-        console.log('An error occurred while retrieving token. ', err);
-        showToken('Error retrieving Instance ID token. ', err);
+        console.log('Unable to retrieve refreshed token ', err);
     }
 }
 
-async function tokenRefresh(){
-
-    try{
-        const refreshedToken = await messaging.getToken();
-        // app server.
-        //setTokenSentToServer(false);
-        // Send Instance ID token to app server.
-        //sendTokenToServer(refreshedToken);
-    }catch(e){
-        console.log('Unable to retrieve refreshed token ', err);
-        //showToken('Unable to retrieve refreshed token ', err);
-    }
-
+async function deleteToken(){
+    const currentToken = await messaging.getToken();
+    messaging.deleteToken(currentToken);
+    localStorage.removeItem('covid-token');
+    toast('Notifications Disabled!');
 }
 
 function toggleMsg(event){
     const enabled = event.target.checked;
     if(enabled){
         requestNotifications();
+    }else{
+        deleteToken();
     }
+}
+
+async function checkAlertStatus(){
+    let checkbox = document.querySelector('#msgEnabled');
+    checkbox.checked = localStorage.getItem('covid-token') !== null;
 }
 
 async function foregroundMsg(payload){
     console.log('Message: ', payload);
+}
+//End Notifications ************************************************* */
+
+function login(modal){ 
+    ui.start('#authContainer', 
+            {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    auth = authResult;
+                    loginModal.close();
+                }
+            },
+            signInFlow: 'popup',
+            signInSuccessUrl: '#',
+            signInOptions: [
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            ],
+            tosUrl: 'https://covid19tt.web.app',
+            privacyPolicyUrl: 'https://covid19tt.web.app'
+        }
+    );
+}
+
+function getAuth(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            auth = user;
+            console.log('logged in');
+        } else {
+            console.log('not logged in');
+        }
+    });
 }
 
 function toast(message){
@@ -189,12 +247,15 @@ function main(){
     messaging.onMessage(foregroundMsg);
 
     document.querySelector('#msgEnabled').addEventListener('click', toggleMsg);
+    document.querySelector('#loginBtn').addEventListener('click', login);
     document.forms['createForm'].addEventListener('submit', createReport);
     document.forms['deleteForm'].addEventListener('submit', deleteReport);
 
+    getAuth();
     getData();
     fixAccessbility();
     registerSW();
+    checkAlertStatus();
 }
 
 

@@ -1,7 +1,6 @@
 {
   "hosting": {
     "public": "public",
-    "site": "covid19tt",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -13,5 +12,10 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    }
   }
 }
