@@ -20,6 +20,7 @@ exports.subscribe = functions.https.onRequest(async (request, response) => {
         if(request.body.token){
             try{
                 let res = await admin.messaging().subscribeToTopic(request.body.token, 'covid_alerts');
+                console.log("subscribed ", request.body.token)
                 response.send(res);
             }catch(e){
                 console.error(e);
@@ -39,23 +40,22 @@ exports.sendAlert = functions.firestore.document('/releases/{documentId}').onCre
       if(release.notify){
           try{
              const message = {
-                notification : {
+                "notification" : {
                     "title":`Covid19TT Alert: #${release.id} Released`,
-                    "body": `Tested: ${release.tested}\n Positive: ${positive}\n Deaths: ${deaths}`,
-                    
+                    "body": `Tested: ${release.tested}\n Positive: ${positive}\n Deaths: ${deaths}`   
                 },
-                topic: 'covid_alerts',
-                webpush: {
-                    icon : "https://covid19tt.web.app/assets/img/512.png",
-                    badge: 'https://covid19tt.web.app/assets/img/192.png',
-                    timestamp : Date.now()/1000,
-                    sound: 'https://covid19tt.web.app/assets/coffin-dance.mp3',
-                    vibrate: [500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500],
-                    requireInteraction: true,
+                "topic": 'covid_alerts',
+                "webpush": {
+                    "headers": {
+                        "Urgency": "high",
+                        "icon" : "https://covid19tt.web.app/assets/img/512.png",
+                        "badge" : 'https://covid19tt.web.app/assets/img/192.png',
+                        "timestamp" : `${Date.now()/1000}`,
+                    },
+                    "fcm_options": {
+                        "link": "https://covid19tt.web.app"
+                    }
                 },
-                fcm_options: {
-                    "link": "https://covid19tt.web.app"
-                }
             };
             const response = await admin.messaging().send(message);
             console.log('Successfully sent message:', response);

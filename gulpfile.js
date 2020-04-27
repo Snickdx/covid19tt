@@ -12,14 +12,14 @@ const paths = {
 };
 
 function javascriptBuild() {
-  return gulp.src([`${paths.source}/*.js`])
+  return gulp.src([`${paths.source}/js/*.js`])
     .pipe(minify({
         noSource:true,
          ext:{
             min:'.js'
         },
     }))
-    .pipe(gulp.dest(paths.build))
+    .pipe(gulp.dest(`${paths.build}/js`))
 }
 
 function htmlBuild() {
